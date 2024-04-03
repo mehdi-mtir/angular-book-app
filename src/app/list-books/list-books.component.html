@@ -1,5 +1,7 @@
 <h1>Liste des livres</h1>
 
+<app-search-book (serachBook)="filterListBook($event)"></app-search-book>
+
 <table class="table striped">
     <thead>
       <tr>
@@ -8,15 +10,19 @@
         <th scope="col">Auteur</th>
         <th scope="col">Prix</th>
         <th scope="col">Détails</th>
+        <th scope="col">Editer</th>
+        <th scope="col">Supprimer</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let book of books">
+      <tr *ngFor="let book of filtredBooks">
         <th scope="row">{{book.id}}</th>
         <td>{{book.title}}</td>
         <td>{{book.author}}</td>
         <td>{{book.price}}</td>
         <td><button class="btn btn-info" (click)="showDetails(book)">Afficher détails</button></td>
+        <td><button class="btn btn-success" [routerLink]="['/books', 'edit', book.id]" >Editer</button></td>
+        <td><button class="btn btn-danger" >Supprimer</button></td>
       </tr>
     </tbody>
 </table>

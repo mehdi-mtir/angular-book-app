@@ -11,7 +11,7 @@ export class DetailBookComponent {
   @Output() hidedetails = new EventEmitter();
 
   hideBookDetails(){
-    this.hidedetails.emit();
+    this.hidedetails.emit
   }
 
 }

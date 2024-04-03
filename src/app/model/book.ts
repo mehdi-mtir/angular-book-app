@@ -1,4 +1,10 @@
 export class Book {
+    public get cover(): string | undefined {
+        return this._cover;
+    }
+    public set cover(value: string) {
+        this._cover = value;
+    }
     public get id(): number {
         return this._id;
     }
@@ -23,17 +29,12 @@ export class Book {
     public set price(value: number) {
         this._price = value;
     }
-    public get cover(): string {
-        return this._cover;
-    }
-    public set cover(value: string) {
-        this._cover = value;
-    }
+   
     constructor(
         private _id: number,
         private _title: string,
         private _author: string,
         private _price: number,
-        private _cover: string
+        private _cover?: string
     ){}
 }

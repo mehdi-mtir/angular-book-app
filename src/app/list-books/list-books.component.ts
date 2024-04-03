@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Book } from '../model/book';
 
 @Component({
   selector: 'app-list-books',
@@ -7,9 +8,14 @@ import { Component } from '@angular/core';
 })
 export class ListBooksComponent {
   books = [
-    {id : 1, title : "The slight edge", author : "Jeff Olsen", price : 20},
-    {id : 2, title : "The power of habits", author : "Charles Duhigg", price : 25},
-    {id : 3, title : "Atomic habits", author : "James clear", price : 30}
+    new Book(1, "The slight edge", "Jeff Olsen", 20, "https://prodimage.images-bn.com/pimages/9781626340466_p0_v1_s1200x630.jpg"),
+    new Book(2, "The power of habits", "Charles Duhigg", 25, "https://images.epagine.fr/249/9781847946249_1_75.jpg"),
+    new Book(3, "Atomic habits", "James clear", 30, "https://images.epagine.fr/831/9781847941831_1_75.jpg")
   ];
+  bookToShow? : Book;
+
+  showDetails(book? : Book){
+    this.bookToShow = book;
+  }
 
 }

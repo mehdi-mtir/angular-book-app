@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../model/book';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,16 @@ export class BookService {
     new Book(3, "Atomic habits", "James clear", 30, "https://images.epagine.fr/831/9781847941831_1_75.jpg")
   ];
 
+  booksUpdated = new Subject<Book[]>();
+
   constructor() { }
 
   getBooks(){
     return [...this.books];
+  }
+
+  getBookById(id : number){
+    return this.books.find(book => book.id === id);
   }
 
   addBook(title : string, author : string, price : number, cover : string){
@@ -28,9 +35,20 @@ export class BookService {
     this.books = [book, ...this.books ]
   }
 
-  getBookById(id : number){
-    return this.books.find(book => book.id === id);
+  editBook(id : number, title : string, author : string, price : number, cover : string){
+    const book = new Book(id, title, author, price, cover);
+    this.books = this.books.map(
+      b => (b.id === id)?book:b
+    )
   }
+
+  deleteBook(id : number){
+    this.books = this.books.filter(b=>b.id !== id);
+    this.booksUpdated.next(this.books);
+    console.log(this.books);
+  }
+
+  
 
   
 }

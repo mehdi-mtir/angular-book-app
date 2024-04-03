@@ -1,5 +1,5 @@
 <h2>Ajouter un nouveau livre :</h2>
-<form #f="ngForm" >
+<form #f="ngForm" (ngSubmit)="editBook(f)" >
     <div class="mb-3">
       <label for="title" class="form-label">Titre</label>
       <input type="text" class="form-control" id="title" name="title" ngModel required #t="ngModel" [(ngModel)]="book!.title">
@@ -7,17 +7,17 @@
     </div>
     <div class="mb-3">
         <label for="author" class="form-label">Auteur</label>
-        <input type="text" class="form-control" id="author" name="author" ngModel required #a="ngModel">
+        <input type="text" class="form-control" id="author" name="author" ngModel required #a="ngModel" [(ngModel)]="book!.author">
         <span class="error" *ngIf="a.invalid && a.touched">Ce champ est obligatoire</span>
     </div>
     <div class="mb-3">
         <label for="price" class="form-label">Prix</label>
-        <input type="text" class="form-control" id="price" name="price" ngModel required #p="ngModel">
+        <input type="text" class="form-control" id="price" name="price" ngModel required #p="ngModel" [(ngModel)]="book!.price">
         <span class="error" *ngIf="p.invalid && p.touched">Ce champ est obligatoire</span>
     </div>
     <div class="mb-3">
         <label for="cover" class="form-label">Couverture</label>
-        <input type="text" class="form-control" id="cover" name="cover" ngModel>
+        <input type="text" class="form-control" id="cover" name="cover" ngModel [(ngModel)]="book!.cover">
     </div>
     
     <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Submit</button>

@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListBooksComponent } from './list-books/list-books.component';
-import { AddBookComponent } from './add-book/add-book.component';
-import { EditBookComponent } from './edit-book/edit-book.component';
 
 const routes: Routes = [
-  {path : "books", component : ListBooksComponent},
-  {path : "books/add", component : AddBookComponent},
-  {path : "books/edit/:id", component : EditBookComponent}
+  {
+    path: 'books',
+    loadChildren: () => import('./books/books.module').then(m => m.BooksModule)
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+  },
+  {path : "", redirectTo : "books", pathMatch : 'full'}
 ];
 
 @NgModule({

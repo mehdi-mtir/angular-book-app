@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../model/book';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,9 @@ export class BookService {
   ];*/
   private books : Book[] = [];
   private baseUrl = "http://localhost:3000/books";
+  options = {
+    headers: new HttpHeaders( { 'content-type': 'application/json' })
+  }
 
 
   booksUpdated = new Subject<Book[]>();
@@ -43,11 +46,18 @@ export class BookService {
     return this.http.get<Book[]>(this.baseUrl);
   }
 
-  getBookById(id : number){
+  //version avec données locales
+  /*getBookById(id : number){
     return this.books.find(book => book.id === id);
+  }*/
+
+  //version avec accès distant
+  getBookById(id : string) : Observable<Book>{
+    return this.http.get<Book>(`${this.baseUrl}/${id}`)
   }
 
-  addBook(title : string, author : string, price : number, cover : string){
+  //version avec données locales
+  /*addBook(title : string, author : string, price : number, cover : string){
     const book = new Book(
       this.books[this.books.length - 1].id + 1,
       title,
@@ -56,19 +66,59 @@ export class BookService {
       cover
     )
     this.books = [book, ...this.books ]
+  }*/
+
+   //version 1 avec données distantes
+   /*addBook(title : string, author : string, price : number, cover : string){
+    const book = {
+      title : title,
+      author : author,
+      price :  price,
+      cover : cover
+    };
+    this.http.post<Book>(this.baseUrl, book, this.options).subscribe(
+      book => {
+        this.books = [...this.books, book];
+        this.booksUpdated.next(this.books);
+      }
+    )
+  }*/
+
+  //version 2 avec données distantes
+  addBook(title : string, author : string, price : number, cover : string) : Observable<Book>{
+    const book = {
+      title : title,
+      author : author,
+      price :  price,
+      cover : cover
+    };
+    return this.http.post<Book>(this.baseUrl, book, this.options)
   }
 
-  editBook(id : number, title : string, author : string, price : number, cover : string){
+  //version avec données locales
+  /*editBook(id : number, title : string, author : string, price : number, cover : string){
     const book = new Book(id, title, author, price, cover);
     this.books = this.books.map(
       b => (b.id === id)?book:b
     )
+  }*/
+
+  //version avec accès distant
+  editBook(id : string, title : string, author : string, price : number, cover : string) : Observable<Book>{
+    const book = {id, title, author, price, cover}
+    return this.http.put<Book>(`${this.baseUrl}/${id}`, book, this.options)
   }
 
-  deleteBook(id : number){
+  //version avec données locales
+  /*deleteBook(id : string){
     this.books = this.books.filter(b=>b.id !== id);
     this.booksUpdated.next(this.books);
     console.log(this.books);
+  }*/
+
+  //version avec données distantes
+  deleteBook(id : string): Observable<any>{
+    return this.http.delete<any>(`${this.baseUrl}/${id}`)
   }
 
   

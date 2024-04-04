@@ -1,8 +1,8 @@
 <h2>Ajouter un nouveau livre :</h2>
-<form #f="ngForm" (ngSubmit)="editBook(f)" >
+<form #f="ngForm" (ngSubmit)="editBook(f)" *ngIf="book" >
     <div class="mb-3">
       <label for="title" class="form-label">Titre</label>
-      <input type="text" class="form-control" id="title" name="title" ngModel required #t="ngModel" [(ngModel)]="book!.title">
+      <input type="text" class="form-control" id="title" name="title" ngModel required #t="ngModel" [(ngModel)]="book!.title ">
       <span class="error" *ngIf="t.invalid && t.touched">Ce champ est obligatoire</span>
     </div>
     <div class="mb-3">

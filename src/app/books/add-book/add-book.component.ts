@@ -18,8 +18,12 @@ export class AddBookComponent {
       f.value.author,
       f.value.price,
       f.value.cover
-    );
-    this.router.navigate(['/books']);
+    ).subscribe(
+      book=>{
+        this.router.navigate(['/books']);
+      }
+    )
+    
   }
 
 }

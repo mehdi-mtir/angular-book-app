@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class EditBookComponent implements OnInit {
   book? : Book;
-  id? : number;
+  id? : string;
 
   constructor (
     private activatedRoute : ActivatedRoute, 
@@ -21,15 +21,20 @@ export class EditBookComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       params => {
-        this.id = +params['id'];
-        this.book = this.bookService.getBookById(this.id);
+        this.id = params['id'];
+        this.bookService.getBookById(this.id || "").subscribe(
+          book => this.book = book
+        )
       }
     );
   }
 
   editBook(f : NgForm){
-    this.bookService.editBook(this.id!, f.value.title, f.value.author, f.value.price, f.value.cover);
-    this.router.navigate(['/books']);
+    this.bookService.editBook(this.id!, f.value.title, f.value.author, f.value.price, f.value.cover)
+      .subscribe(
+        book=>this.router.navigate(['/books'])
+      );
+    
   }
 
   

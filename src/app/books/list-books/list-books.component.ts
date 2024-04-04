@@ -20,17 +20,22 @@ export class ListBooksComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.filtredBooks = this.bookService.getBooks();
     this.subscription = this.bookService.booksUpdated.subscribe(books=>this.filtredBooks = books);
+    this.bookService.getBooks();
   }
-  
+
+  /*ngOnInit(): void {
+    this.bookService.getBooks2().subscribe(
+      books => this.filtredBooks = books
+    )
+  }*/
 
   showDetails(book? : Book){
     this.bookToShow = book;
   }
 
   filterListBook(keyword : string){
-    this.filtredBooks = this.bookService.getBooks().filter(
+    this.filtredBooks = this.filtredBooks.filter(
       (book)=>book.title.toLowerCase().includes(keyword)
     );
   }
